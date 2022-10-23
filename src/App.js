@@ -18,28 +18,30 @@ class App extends Component {
         data: new Date(2022, 10, 16),
         mensagem: 'Olá, tudo sim'
       }
-    ]
+    ],
+    novoComentario: {
+      nome: '',
+      email: '',
+      mensagem: ''
+    }
   }
 
-  adicionarComentario = () => {
+  adicionarComentario = evento => {
+    evento.preventDefault();
     console.log('Adicionando comentario...')
 
-    const novoComentario = {
-      nome: 'Maria',
-      email: 'maria@mail.com',
-      data: new Date(),
-      mensagem: 'Olá pessoal!!!!'
-    }
-
-    //uma forma de atualizar o estado
-    // let lista = this.state.comentarios;
-    // lista.push(novoComentario);
-    // this.setState({comentarios: lista});
+    const novoComentario = {...this.state.novoComentario, data: new Date()}
 
     this.setState({
-      comentarios: [...this.state.comentarios, novoComentario]
+      comentarios: [...this.state.comentarios, novoComentario],
+      novoComentario: {nome: '', email: '', mensagem: ''}
     })
 
+  }
+
+  digitacao = evento => {
+    const {name, value} = evento.target;
+    this.setState({ novoComentario: { ...this.state.novoComentario, [name]: value } })
   }
 
   render() {
@@ -56,7 +58,33 @@ class App extends Component {
           </Comentario>
         ))}
 
-        <button onClick={this.adicionarComentario}>Adicionar um comentario</button>
+        <form method="post" onSubmit={this.adicionarComentario}>
+          <h2>Adicionar Comentários</h2>
+          <div>
+            <input
+              type="text"
+              name="nome"
+              onChange={this.digitacao}
+              value={this.state.novoComentario.nome}
+              placeholder='Digite o seu nome' />
+          </div>
+          <div>
+            <input
+              type="email"
+              name="email"
+              onChange={this.digitacao}
+              value={this.state.novoComentario.email}
+              placeholder='Digite o seu email' />
+          </div>
+          <div>
+            <textarea
+              name="mensagem"
+              onChange={this.digitacao}
+              value={this.state.novoComentario.mensagem}
+              rows="4" />
+          </div>
+          <button type="submit">Adicionar Comentário</button>
+        </form>
       </div>
     );
   }
