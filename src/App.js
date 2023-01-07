@@ -67,10 +67,11 @@ class App extends Component {
           </Comentario>
         ))}
 
-        <form method="post" onSubmit={this.adicionarComentario}>
+        <form method="post" onSubmit={this.adicionarComentario} className="Novo-Comentario">
           <h2>Adicionar Comentários</h2>
           <div>
             <input
+              required
               type="text"
               name="nome"
               onChange={this.digitacao}
@@ -79,6 +80,7 @@ class App extends Component {
           </div>
           <div>
             <input
+              required
               type="email"
               name="email"
               onChange={this.digitacao}
@@ -87,6 +89,7 @@ class App extends Component {
           </div>
           <div>
             <textarea
+              required
               name="mensagem"
               onChange={this.digitacao}
               value={this.state.novoComentario.mensagem}
